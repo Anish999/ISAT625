@@ -5,6 +5,7 @@ const dotenv = require('dotenv').config()
 const { errorHandler } = require('./middleware/errorMiddleware')
 const connectDB = require('./config/db')
 const cookieParser = require('cookie-parser')
+const cors = require('cors');
 
 connectDB()
 
@@ -42,6 +43,8 @@ if(process.env.NODE_ENV == 'production'){
 }
 
 app.use(errorHandler);
+
+app.use(cors());
 
 app.listen(port, () => {
   console.log(`App listening at http://localhost:${port}`);
