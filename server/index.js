@@ -12,6 +12,10 @@ connectDB()
 const uri = process.env.MONGO_URI;
 const app = express();
 
+app.use(cors({
+  origin: '*',
+}));
+
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 app.use(cookieParser());
@@ -43,21 +47,6 @@ if(process.env.NODE_ENV == 'production'){
 }
 
 app.use(errorHandler);
-
-app.use(cors());
-
-app.use(function(req, res, next) {
-  // res.header("Access-Control-Allow-Origin", "*");
-  const allowedOrigins = ['http://localhost:3000'];
-  const origin = req.headers.origin;
-  if (allowedOrigins.includes(origin)) {
-       res.setHeader('Access-Control-Allow-Origin', origin);
-  }
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
-  res.header("Access-Control-Allow-credentials", true);
-  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, UPDATE");
-  next();
-});
 
 app.listen(port, () => {
   console.log(`App listening at http://localhost:${port}`);
